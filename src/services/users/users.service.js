@@ -14,7 +14,10 @@ module.exports = function(app) {
     allowedEager: '[partner, student]',
     allowedInsert: '[partner, student]',
     allowedUpsert: '[partner, student]',
-    insertGraphOptions: true
+    insertGraphOptions: true,
+    upsertGraphOptions: {
+      relate: true
+    }
   };
 
   // Initialize our service with any options it requires
