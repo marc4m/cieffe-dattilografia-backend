@@ -4,6 +4,8 @@ const {
   protect
 } = require('@feathersjs/authentication-local').hooks;
 
+const { protect } = require('@feathersjs/authentication-local').hooks;
+
 module.exports = {
   before: {
     all: [

@@ -7,6 +7,10 @@ class partner extends Model {
     return 'partner';
   }
 
+  static get idColumn() {
+    return 'idUtente';
+  }
+
   // static get idColumn() {
   //   return 'idUtente';
   // }

@@ -7,9 +7,9 @@ class student extends Model {
     return 'student';
   }
 
-  // static get idColumn() {
-  //   return 'idUtente';
-  // }
+  static get idColumn() {
+    return 'idUtente';
+  }
 
   static get jsonSchema() {
     return {
