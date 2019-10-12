@@ -1,0 +1,52 @@
+// See https://vincit.github.io/objection.js/#models
+// for more of what you can do here.
+const { Model } = require('objection');
+
+class certificates extends Model {
+  static get tableName() {
+    return 'certificates';
+  }
+
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: ['idStudent', 'idQuiz', 'type'],
+
+      properties: {
+        idStudent: { type: 'number' },
+        idQuiz: { type: 'number' },
+        type: { type: 'string' },
+        number: { type: 'number' },
+        year: { type: 'number' },
+        enabled: { type: 'boolean' }
+      }
+    };
+  }
+
+  // $beforeInsert() {
+  //   this.createdAt = this.updatedAt = new Date().toISOString();
+  // }
+
+  // $beforeUpdate() {
+  //   this.updatedAt = new Date().toISOString();
+  // }
+
+  static get relationMappings() {
+    const Student = require('./student.model')();
+
+    return {
+      student: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Student,
+        join: {
+          from: 'certificates.idStudent',
+          to: 'student.idUtente'
+        }
+      }
+    };
+  }
+}
+
+module.exports = function() {
+  return certificates;
+};
