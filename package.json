@@ -42,6 +42,7 @@
     "cors": "^2.8.5",
     "express-html-to-pdf": "^1.3.0",
     "feathers-objection": "^4.2.4",
+    "feathers-permissions": "^1.1.0",
     "helmet": "^3.21.1",
     "html-pdf": "^2.2.0",
     "knex": "^0.19.4",

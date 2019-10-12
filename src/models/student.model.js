@@ -28,16 +28,17 @@ class student extends Model {
     };
   }
 
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
-  }
+  // $beforeInsert() {
+  //   this.createdAt = this.updatedAt = new Date().toISOString();
+  // }
 
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
-  }
+  // $beforeUpdate() {
+  //   this.updatedAt = new Date().toISOString();
+  // }
 
   static get relationMappings() {
     const User = require('./users.model')();
+    const Certificates = require('./certificates.model')();
 
     return {
       user: {
@@ -46,6 +47,14 @@ class student extends Model {
         join: {
           from: 'student.idUtente',
           to: 'users.id'
+        }
+      },
+      certificates: {
+        relation: Model.HasManyRelation,
+        modelClass: Certificates,
+        join: {
+          from: 'student.idUtente',
+          to: 'certificates.idStudent'
         }
       }
     };

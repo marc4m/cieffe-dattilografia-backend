@@ -11,10 +11,6 @@ class partner extends Model {
     return 'idUtente';
   }
 
-  // static get idColumn() {
-  //   return 'idUtente';
-  // }
-
   static get jsonSchema() {
     return {
       type: 'object',
