@@ -1,6 +1,24 @@
-const { AuthenticationService, JWTStrategy } = require('@feathersjs/authentication');
+const {
+  AuthenticationService,
+  JWTStrategy
+} = require('@feathersjs/authentication');
 const { LocalStrategy } = require('@feathersjs/authentication-local');
 const { expressOauth } = require('@feathersjs/authentication-oauth');
+
+// class MyAuthService extends AuthenticationService {
+//   async getPayload(authResult, params) {
+//     const payload = await super.getPayload(authResult, params);
+//     const { user } = authResult;
+
+//     // if (user && user.permissions) {
+//     //   payload.permissions = user.permissions;
+//     // }
+
+//     console.log(user);
+
+//     return payload;
+//   }
+// }
 
 module.exports = app => {
   const authentication = new AuthenticationService(app);

@@ -9,15 +9,4 @@ exports.Certificates = class Certificates extends Service {
       model: Model
     });
   }
-
-  // setup(app) {
-  //   this.app = app;
-  // }
-
-  // async patch(id, data, params) {
-  //   const {user} = params;
-
-  //   // Faccio la modifica al database
-  //   return super.patch(id, data, params);
-  // }
 };
