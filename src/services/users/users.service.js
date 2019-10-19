@@ -12,8 +12,8 @@ module.exports = function(app) {
     paginate,
     whitelist: ['$eager', '$joinRelation'],
     allowedEager: '[partner, student, certificates, permissions]',
-    allowedInsert: '[partner, student]',
-    allowedUpsert: '[partner, student]',
+    allowedInsert: '[partner, student, certificates]',
+    allowedUpsert: '[partner, student, certificates]',
     insertGraphOptions: true,
     upsertGraphOptions: {
       relate: true

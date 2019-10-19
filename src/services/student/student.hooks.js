@@ -42,8 +42,7 @@ module.exports = {
       })
     ],
     update: [
-      iff(
-        isNotAdmin(),
+      iff(isNotAdmin(), [
         setField({
           from: 'params.user.id',
           as: 'params.query.idPartner'
@@ -52,11 +51,10 @@ module.exports = {
           from: 'params.user.id',
           as: 'data.idPartner'
         })
-      )
+      ])
     ],
     patch: [
-      iff(
-        isNotAdmin(),
+      iff(isNotAdmin(), [
         setField({
           from: 'params.user.id',
           as: 'params.query.idPartner'
@@ -65,7 +63,7 @@ module.exports = {
           from: 'params.user.id',
           as: 'data.idPartner'
         })
-      )
+      ])
     ],
     remove: [
       iff(

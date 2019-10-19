@@ -13,12 +13,12 @@ class certificates extends Model {
       required: ['idStudent', 'idQuiz', 'type'],
 
       properties: {
-        idStudent: { type: 'number' },
-        idQuiz: { type: 'number' },
+        idStudent: { type: 'integer' },
+        idQuiz: { type: 'integer' },
         type: { type: 'string' },
-        number: { type: 'number' },
-        year: { type: 'number' },
-        enabled: { type: 'boolean' }
+        number: { type: 'integer' },
+        year: { type: 'integer' },
+        enabled: { type: 'integer', minimum: 0, maximum: 1 }
       }
     };
   }
