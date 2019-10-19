@@ -10,10 +10,10 @@ class users extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['password'],
+      required: ['email', 'password'],
 
       properties: {
-        email: { type: ['string', 'null'] },
+        email: { type: 'string' },
         password: 'string'
       }
     };

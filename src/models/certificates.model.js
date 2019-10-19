@@ -13,6 +13,7 @@ class certificates extends Model {
       required: ['idStudent', 'idQuiz', 'type'],
 
       properties: {
+        id: { type: 'integer' },
         idStudent: { type: 'integer' },
         idQuiz: { type: 'integer' },
         type: { type: 'string' },
@@ -22,14 +23,6 @@ class certificates extends Model {
       }
     };
   }
-
-  // $beforeInsert() {
-  //   this.createdAt = this.updatedAt = new Date().toISOString();
-  // }
-
-  // $beforeUpdate() {
-  //   this.updatedAt = new Date().toISOString();
-  // }
 
   static get relationMappings() {
     const Student = require('./student.model')();

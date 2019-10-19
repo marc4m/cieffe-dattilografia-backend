@@ -46,32 +46,6 @@ class partner extends Model {
   }
 }
 
-module.exports = function(app) {
-  if (app) {
-    const db = app.get('knex');
-
-    db.schema
-      .hasTable('partner')
-      .then(exists => {
-        if (!exists) {
-          db.schema
-            .createTable('partner', table => {
-              table.engine('InnoDB');
-
-              table.integer('idUtente').unsigned();
-
-              table.string('ragioneSociale').notNullable();
-              table.timestamp('createdAt');
-              table.timestamp('updatedAt');
-
-              table.foreign('idUtente').references('users.id');
-            })
-            .then(() => console.log('Created partner table')) // eslint-disable-line no-console
-            .catch(e => console.error('Error creating partner table', e)); // eslint-disable-line no-console
-        }
-      })
-      .catch(e => console.error('Error creating partner table', e)); // eslint-disable-line no-console
-  }
-
+module.exports = function() {
   return partner;
 };
