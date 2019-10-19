@@ -13,23 +13,16 @@ class certificates extends Model {
       required: ['idStudent', 'idQuiz', 'type'],
 
       properties: {
-        idStudent: { type: 'number' },
-        idQuiz: { type: 'number' },
+        id: { type: 'integer' },
+        idStudent: { type: 'integer' },
+        idQuiz: { type: 'integer' },
         type: { type: 'string' },
-        number: { type: 'number' },
-        year: { type: 'number' },
-        enabled: { type: 'boolean' }
+        number: { type: 'integer' },
+        year: { type: 'integer' },
+        enabled: { type: 'integer', minimum: 0, maximum: 1 }
       }
     };
   }
-
-  // $beforeInsert() {
-  //   this.createdAt = this.updatedAt = new Date().toISOString();
-  // }
-
-  // $beforeUpdate() {
-  //   this.updatedAt = new Date().toISOString();
-  // }
 
   static get relationMappings() {
     const Student = require('./student.model')();
