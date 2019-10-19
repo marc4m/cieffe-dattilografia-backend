@@ -1,9 +1,19 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const { populate } = require('feathers-hooks-common');
 
 const {
   hashPassword,
   protect
 } = require('@feathersjs/authentication-local').hooks;
+
+const userPartnerSchema = {
+  include: {
+    service: 'partner',
+    nameAs: 'partner',
+    parentField: 'id',
+    childField: 'idUtente'
+  }
+};
 
 module.exports = {
   before: {
@@ -28,7 +38,7 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [],
+    create: [populate({ schema: userPartnerSchema })],
     update: [],
     patch: [],
     remove: []
