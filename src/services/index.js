@@ -12,6 +12,8 @@ const answers = require('./answers/answers.service.js');
 
 const questions = require('./questions/questions.service.js');
 
+const modules = require('./modules/modules.service.js');
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function(app) {
   app.configure(users);
@@ -21,4 +23,5 @@ module.exports = function(app) {
   app.configure(certificates);
   app.configure(answers);
   app.configure(questions);
+  app.configure(modules);
 };
