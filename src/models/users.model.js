@@ -19,14 +19,6 @@ class users extends Model {
     };
   }
 
-  // $beforeInsert() {
-  //   this.createdAt = this.updatedAt = new Date().toISOString();
-  // }
-
-  // $beforeUpdate() {
-  //   this.updatedAt = new Date().toISOString();
-  // }
-
   static get relationMappings() {
     const Student = require('./student.model')();
     const Partner = require('./partner.model')();
