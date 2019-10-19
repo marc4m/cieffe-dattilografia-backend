@@ -28,14 +28,6 @@ class student extends Model {
     };
   }
 
-  // $beforeInsert() {
-  //   this.createdAt = this.updatedAt = new Date().toISOString();
-  // }
-
-  // $beforeUpdate() {
-  //   this.updatedAt = new Date().toISOString();
-  // }
-
   static get relationMappings() {
     const User = require('./users.model')();
     const Certificates = require('./certificates.model')();

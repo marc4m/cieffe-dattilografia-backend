@@ -3,13 +3,15 @@ const { Certificates } = require('./certificates.class');
 const createModel = require('../../models/certificates.model');
 const hooks = require('./certificates.hooks');
 
-module.exports = function (app) {
+module.exports = function(app) {
   const Model = createModel(app);
   const paginate = app.get('paginate');
 
   const options = {
     Model,
-    paginate
+    paginate,
+    whitelist: ['$eager', '$joinRelation'],
+    allowedEager: '[student]'
   };
 
   // Initialize our service with any options it requires

@@ -2,27 +2,24 @@
 // for more of what you can do here.
 const { Model } = require('objection');
 
-class roles extends Model {
+class modules extends Model {
   static get tableName() {
-    return 'users_roles';
+    return 'modules';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['idUser', 'actionType'],
-
+      required: ['id', 'description'],
       properties: {
-        idUser: { type: 'number' },
-        idEntity: { type: 'number' },
-        actionType: { type: 'string' } //TODO: Enumarion
+        idPreModule: { type: 'integer' },
+        title: { type: 'string' },
+        description: { type: 'string' }
       }
     };
   }
-
-  //TODO: Aggiungere relazioni
 }
 
 module.exports = function() {
-  return roles;
+  return modules;
 };
