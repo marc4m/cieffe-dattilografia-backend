@@ -11,10 +11,10 @@ module.exports = function(app) {
     Model,
     paginate,
     id: 'idUtente',
-    whitelist: ['$eager', '$joinRelation'],
-    allowedEager: '[user, certificates]',
-    allowedInsert: '[user, certificates]',
-    allowedUpsert: '[user, certificates]',
+    whitelist: ['$eager', '$joinRelation', '$joinEager'],
+    allowedEager: '[user, certificates, modules]',
+    allowedInsert: '[user, certificates, modules]',
+    allowedUpsert: '[user, certificates, modules]',
     insertGraphOptions: true,
     upsertGraphOptions: {
       relate: true

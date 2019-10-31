@@ -17,6 +17,7 @@ class student extends Model {
       required: ['nome', 'cognome'],
 
       properties: {
+        idUtente: { type: 'integer' },
         nome: { type: 'string' },
         cognome: { type: 'string' },
         genere: { type: 'number' },
@@ -31,6 +32,7 @@ class student extends Model {
   static get relationMappings() {
     const User = require('./users.model')();
     const Certificates = require('./certificates.model')();
+    const Modules = require('./modules.model')();
 
     return {
       user: {
@@ -48,6 +50,32 @@ class student extends Model {
           from: 'student.idUtente',
           to: 'certificates.idStudent'
         }
+      },
+      modules: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Modules,
+        join: {
+          from: 'student.idUtente',
+          through: {
+            from: 'students_modules.idStudent',
+            to: 'students_modules.idModule',
+            extra: ['corretAnswers', 'incorrectAnswers']
+          },
+          to: 'modules.id'
+        }
+      }
+    };
+  }
+
+  static get namedFilters() {
+    return {
+      aaa(builder) {
+        // builder.select('idUtente');
+        builder
+          .where('idUtente', 1)
+          .select('idUtente')
+          .pluck('idUtente');
+        // builder.pluck('idUtente');
       }
     };
   }

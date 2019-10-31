@@ -6,6 +6,7 @@ const { setField } = require('feathers-authentication-hooks');
 const checkPermissions = require('feathers-permissions');
 
 const isNotAdmin = () => async context => context.params.user.role !== 'admin';
+const isPartner = () => async context => context.params.user.role == 'partner';
 
 module.exports = {
   before: {
@@ -29,10 +30,18 @@ module.exports = {
     get: [
       iff(
         isNotAdmin(),
-        setField({
-          from: 'params.user.id',
-          as: 'params.query.idPartner'
-        })
+        iff(
+          isPartner(),
+          setField({
+            from: 'params.user.id',
+            as: 'params.query.idPartner'
+          })
+        ).else(
+          setField({
+            from: 'params.user.id',
+            as: 'params.query.idUtente'
+          })
+        )
       )
     ],
     create: [
