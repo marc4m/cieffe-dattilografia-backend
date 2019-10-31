@@ -33,7 +33,7 @@ const checkPartner = () => async context => {
   const { permitted, user } = params;
 
   context.data.idPartner = user.id;
-  context.data.enabled = false;
+  // context.data.enabled = 0;
 
   // Sono admin
   if (permitted) return context;
@@ -75,7 +75,7 @@ module.exports = {
 
         // Metto le registrizioni
         context.params.query = {
-          enabled: true,
+          enabled: 1,
           $or: [{ idStudent: user.id }, { idPartner: user.id }]
         };
 
@@ -90,7 +90,8 @@ module.exports = {
         field: 'role',
         error: false
       }),
-      checkPartner()
+      checkPartner(),
+      checkCredits() //TODO: SOLO SE PARTNER. SE MI ARRIVA DA ATTESTATO IL CHECK NON DEVO FARLO, SE STO CREANDO (IO PARTNER) L'ATTESTATO ALLORA DEVE FARE IL CHECKCREDITS
     ],
     patch: [
       /* admin, partner dello studente + rimozione credito */
@@ -109,7 +110,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [removeCredits()],
     update: [],
     patch: [removeCredits()],
     remove: []

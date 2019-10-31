@@ -10,12 +10,11 @@ class certificates extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['idStudent', 'idQuiz', 'type'],
+      required: ['idStudent', 'type'],
 
       properties: {
         id: { type: 'integer' },
         idStudent: { type: 'integer' },
-        idQuiz: { type: 'integer' },
         type: { type: 'string' },
         number: { type: 'integer' },
         year: { type: 'integer' },
