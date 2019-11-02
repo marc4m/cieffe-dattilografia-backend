@@ -3,13 +3,32 @@ const { Modules } = require('./modules.class');
 const createModel = require('../../models/modules.model');
 const hooks = require('./modules.hooks');
 
-module.exports = function (app) {
+module.exports = function(app) {
   const Model = createModel(app);
   const paginate = app.get('paginate');
 
   const options = {
     Model,
-    paginate
+    paginate,
+    whitelist: [
+      '$eager',
+      '$joinRelation',
+      '$leftJoinRelation',
+      '$joinEager',
+      '$pick',
+      '$select'
+    ],
+    allowedEager: '[students, slides]',
+    allowedInsert: '[students]',
+    allowedUpsert: '[students]',
+    insertGraphOptions: {
+      relate: true
+    },
+    upsertGraphOptions: {
+      relate: true,
+      // unrelate: true
+      noDelete: true
+    }
   };
 
   // Initialize our service with any options it requires

@@ -2,36 +2,33 @@
 // for more of what you can do here.
 const { Model } = require('objection');
 
-class partner extends Model {
+class slides extends Model {
   static get tableName() {
-    return 'partner';
-  }
-
-  static get idColumn() {
-    return 'idUtente';
+    return 'slides';
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['ragioneSociale'],
+      required: ['idModule', 'text'],
 
       properties: {
-        ragioneSociale: { type: 'string' }
+        idModule: { type: 'interger' },
+        text: { type: 'string' }
       }
     };
   }
 
   static get relationMappings() {
-    const User = require('./users.model')();
+    const Module = require('./modules.model')();
 
     return {
-      user: {
+      module: {
         relation: Model.BelongsToOneRelation,
-        modelClass: User,
+        modelClass: Module,
         join: {
-          from: 'partner.idUtente',
-          to: 'users.id'
+          from: 'slides.idModule',
+          to: 'modules.id'
         }
       }
     };
@@ -39,5 +36,5 @@ class partner extends Model {
 }
 
 module.exports = function() {
-  return partner;
+  return slides;
 };
