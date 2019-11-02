@@ -14,11 +14,11 @@ module.exports = function(app) {
     whitelist: ['$eager', '$joinRelation'],
     allowedEager: '[user, certificates]',
     allowedInsert: '[user, certificates]',
-    allowedUpsert: '[user, certificates]',
-    insertGraphOptions: true,
-    upsertGraphOptions: {
-      relate: true
-    }
+    allowedUpsert: '[user, certificates]'
+    // insertGraphOptions: true,
+    // upsertGraphOptions: {
+    //   relate: true
+    // }
   };
 
   // Initialize our service with any options it requires
