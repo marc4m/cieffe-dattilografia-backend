@@ -8,14 +8,42 @@ const { iff } = require('feathers-hooks-common');
 const { setField } = require('feathers-authentication-hooks');
 const checkPermissions = require('feathers-permissions');
 
+const isNotAdmin = () => async context => context.params.user.role !== 'admin';
+const isPartner = () => async context => context.params.user.role == 'partner';
+
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [authenticate('jwt')],
-    create: [hashPassword('password')],
-    update: [hashPassword('password'), authenticate('jwt')],
-    patch: [hashPassword('password'), authenticate('jwt')],
+    create: [
+      authenticate('jwt'),
+      hashPassword('password'),
+      checkPermissions({
+        roles: ['admin', 'partner'],
+        field: 'role'
+      }),
+      iff(isPartner(), async context => {
+        context.data.role = 'student';
+        return context;
+      })
+    ],
+    update: [
+      authenticate('jwt'),
+      hashPassword('password'),
+      iff(isPartner(), async context => {
+        context.data.role = 'student';
+        return context;
+      })
+    ],
+    patch: [
+      authenticate('jwt'),
+      hashPassword('password'),
+      iff(isPartner(), async context => {
+        context.data.role = 'student';
+        return context;
+      })
+    ],
     remove: [authenticate('jwt')]
   },
 

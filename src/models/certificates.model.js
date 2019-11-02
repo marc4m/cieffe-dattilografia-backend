@@ -15,7 +15,6 @@ class certificates extends Model {
       properties: {
         id: { type: 'integer' },
         idStudent: { type: 'integer' },
-        idQuiz: { type: 'integer' },
         type: { type: 'string' },
         number: { type: 'integer' },
         year: { type: 'integer' },
