@@ -1,5 +1,17 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
+const { populate } = require('feathers-hooks-common');
+
+const certificateStudentSchema = {
+  include: [
+    {
+      service: 'student',
+      nameAs: 'student',
+      parentField: 'idUtente',
+      childField: 'idStudent'
+    }
+  ]
+};
 
 const { iff } = require('feathers-hooks-common');
 
@@ -61,7 +73,15 @@ const checkPartner = () => async context => {
 
 module.exports = {
   before: {
-    all: [],
+    all: [
+      async context => {
+        context.params.query = {
+          ...context.params.query,
+          $eager: '[student]'
+        };
+        return context;
+      }
+    ],
     find: [], //Ci possono stare solo codice fiscale, protocollo e tutti e due
     get: [
       /* admin, partner dello studente o studente e verificare se è abilitato*/

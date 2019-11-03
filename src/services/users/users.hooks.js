@@ -30,14 +30,26 @@ module.exports = {
         roles: ['admin', 'partner'],
         field: 'role'
       }),
-      iff(isPartner(), async context => {
-        context.data.role = 'student';
-        return context;
-      })
+
+      iff(
+        isPartner(),
+        async context => {
+          context.data.role = 'student';
+          return context;
+        },
+        setField({
+          from: 'params.user.id',
+          as: 'data.student.idPartner'
+        })
+      )
     ],
     update: [
       authenticate('jwt'),
       hashPassword('password'),
+      setField({
+        from: 'params.user.id',
+        as: 'data.student.idPartner'
+      }),
       iff(isPartner(), async context => {
         context.data.role = 'student';
         return context;
@@ -46,6 +58,10 @@ module.exports = {
     patch: [
       authenticate('jwt'),
       hashPassword('password'),
+      setField({
+        from: 'params.user.id',
+        as: 'data.student.idPartner'
+      }),
       iff(isPartner(), async context => {
         context.data.role = 'student';
         return context;

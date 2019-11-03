@@ -11,6 +11,13 @@ const isPartner = () => async context => context.params.user.role == 'partner';
 module.exports = {
   before: {
     all: [
+      async context => {
+        context.params.query = {
+          ...context.params.query,
+          $eager: '[partner]'
+        };
+        return context;
+      },
       authenticate('jwt'),
       checkPermissions({
         roles: ['admin', 'partner'],
