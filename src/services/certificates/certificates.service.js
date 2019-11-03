@@ -9,7 +9,7 @@ module.exports = function(app) {
 
   const options = {
     Model,
-    paginate,
+    //paginate,
     whitelist: ['$eager', '$joinRelation'],
     allowedEager: '[student]'
   };

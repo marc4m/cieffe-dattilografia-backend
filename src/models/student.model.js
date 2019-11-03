@@ -33,6 +33,7 @@ class student extends Model {
     const User = require('./users.model')();
     const Certificates = require('./certificates.model')();
     const Modules = require('./modules.model')();
+    const Partner = require('./partner.model')();
 
     return {
       user: {
@@ -41,6 +42,14 @@ class student extends Model {
         join: {
           from: 'student.idUtente',
           to: 'users.id'
+        }
+      },
+      partner: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Partner,
+        join: {
+          from: 'student.idPartner',
+          to: 'partner.idUtente'
         }
       },
       certificates: {

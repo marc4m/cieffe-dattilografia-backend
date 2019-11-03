@@ -9,4 +9,8 @@ exports.Certificates = class Certificates extends Service {
       model: Model
     });
   }
+
+  // async create(data, params) {
+
+  // }
 };
