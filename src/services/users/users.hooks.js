@@ -1,19 +1,26 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
+
 const {
   protect,
   hashPassword
 } = require('@feathersjs/authentication-local').hooks;
-const { iff } = require('feathers-hooks-common');
 
-const { setField } = require('feathers-authentication-hooks');
+const { iff } = require('feathers-hooks-common');
 const checkPermissions = require('feathers-permissions');
 
-const isNotAdmin = () => async context => context.params.user.role !== 'admin';
 const isPartner = () => async context => context.params.user.role == 'partner';
 
 module.exports = {
   before: {
-    all: [],
+    all: [
+      async context => {
+        context.params.query = {
+          ...context.params.query,
+          $eager: '[student, student.certificates, partner]'
+        };
+        return context;
+      }
+    ],
     find: [],
     get: [authenticate('jwt')],
     create: [
@@ -48,11 +55,7 @@ module.exports = {
   },
 
   after: {
-    all: [
-      // Make sure the password field is never sent to the client
-      // Always must be the last hook
-      protect('password')
-    ],
+    all: [protect('password')],
     find: [],
     get: [],
     create: [],

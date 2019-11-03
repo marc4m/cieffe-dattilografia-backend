@@ -3,7 +3,6 @@ const checkPermissions = require('feathers-permissions');
 
 const { iff } = require('feathers-hooks-common');
 
-const isNotAdmin = () => async context => context.params.user.role !== 'admin';
 const isPartner = () => async context => context.params.user.role == 'partner';
 const isStudent = () => async context => context.params.user.role == 'student';
 
@@ -39,7 +38,7 @@ const checkPartner = () => async context => {
   const { permitted, user } = params;
 
   context.data.idPartner = user.id;
-  context.data.enabled = false;
+  // context.data.enabled = 0;
 
   // Sono admin
   if (permitted) return context;
@@ -81,7 +80,7 @@ module.exports = {
 
         // Metto le registrizioni
         context.params.query = {
-          enabled: true,
+          enabled: 1,
           $or: [{ idStudent: user.id }, { idPartner: user.id }]
         };
 
@@ -105,7 +104,7 @@ module.exports = {
       }),
       iff(isStudent(), async context => {
         // Posso inserire solo i certificati miei
-        context.data.idPartner = context.params.user.idPartner;
+        context.data.idPartner = context.params.user.student.idPartner;
         context.data.idStudent = context.params.user.id;
         context.data.enabled = 0;
         return context;
@@ -128,7 +127,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [removeCredits()],
     update: [],
     patch: [removeCredits()],
     remove: []
