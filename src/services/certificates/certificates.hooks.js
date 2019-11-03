@@ -1,6 +1,12 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
 
+const { iff } = require('feathers-hooks-common');
+
+const isNotAdmin = () => async context => context.params.user.role !== 'admin';
+const isPartner = () => async context => context.params.user.role == 'partner';
+const isStudent = () => async context => context.params.user.role == 'student';
+
 const checkCredits = () => async context => {
   const { params } = context;
   const { permitted, user } = params;
@@ -86,11 +92,24 @@ module.exports = {
       /* admin, partner dello studente */
       authenticate('jwt'),
       checkPermissions({
-        roles: ['admin'],
+        roles: ['admin', 'partner', 'student'],
         field: 'role',
-        error: false
+        error: true
       }),
-      checkPartner()
+      iff(isPartner(), async context => {
+        // Devo controllare che idStudent è un mio studente
+        context.data.idPartner = context.params.user.id;
+        context.data.enabled = 0;
+
+        return context;
+      }),
+      iff(isStudent(), async context => {
+        // Posso inserire solo i certificati miei
+        context.data.idPartner = context.params.user.idPartner;
+        context.data.idStudent = context.params.user.id;
+        context.data.enabled = 0;
+        return context;
+      })
     ],
     patch: [
       /* admin, partner dello studente + rimozione credito */
