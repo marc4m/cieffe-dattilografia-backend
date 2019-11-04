@@ -1,10 +1,11 @@
 const fs = require('fs');
+const moment = require('moment');
 
 /* eslint-disable no-unused-vars */
 exports.Pdf = class Pdf {
   constructor(options) {
     this.options = options || {};
-    this.html = fs.readFileSync('./template/dattilografia.html', 'utf8');
+    this.html = fs.readFileSync('./template/pdf/pdf.html', 'utf8');
   }
 
   async find(params) {
@@ -23,8 +24,23 @@ exports.Pdf = class Pdf {
     // });
 
     let file = this.html;
+    let now = moment().format('DD/MM/YYYY');
+    //let partnerLogo = '<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="https://gecolife.files.wordpress.com/2019/03/picimagine.jpg?w=620"></img>';
+    let partnerLogo = null;
 
-    file = file.replace('{NOMEVINCITORE}', 'Enrico Ditto');
+    file = file.replace('$NOME', 'ENRICO');
+    file = file.replace('$COGNOME', 'DITTO');
+    file = file.replace('$CITTA', 'NAPOLI');
+    file = file.replace('$DATA', '05/01/2019');
+    file = file.replace('$PROTOCOLLO', '123456');
+    file = file.replace('$DATARILASCIO', now);
+    file = file.replace('XXXXXXX', now);
+
+    if(partnerLogo!=null){
+      file = file.replace('$PARTNERLOGO',partnerLogo);
+    }else{
+      file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="http://localhost:3030/background/default.jpg"></img>');
+    }
 
     return file;
   }
