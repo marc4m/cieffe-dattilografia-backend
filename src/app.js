@@ -30,6 +30,7 @@ app.use(compress());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
+
 // Host the public folder
 app.use('/', express.static(app.get('public')));
 
@@ -52,5 +53,7 @@ app.use(express.notFound());
 app.use(express.errorHandler({ logger }));
 
 app.hooks(appHooks);
+
+app.get('*', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
 
 module.exports = app;

@@ -5,6 +5,8 @@ const {
   hashPassword
 } = require('@feathersjs/authentication-local').hooks;
 
+const { setField } = require('feathers-authentication-hooks');
+
 const { iff } = require('feathers-hooks-common');
 const checkPermissions = require('feathers-permissions');
 

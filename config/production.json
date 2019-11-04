@@ -1,4 +1,4 @@
 {
-  "host": "dattilografia-backend-app.feathersjs.com",
-  "port": "PORT"
+  "host": "test.nicmarrol.com",
+  "port": "80"
 }
