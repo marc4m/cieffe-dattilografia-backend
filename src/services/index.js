@@ -14,6 +14,10 @@ const questions = require('./questions/questions.service.js');
 
 const modules = require('./modules/modules.service.js');
 
+const slides = require('./slides/slides.service.js');
+
+const studentsModules = require('./students_modules/students_modules.service.js');
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function(app) {
   app.configure(users);
@@ -24,4 +28,6 @@ module.exports = function(app) {
   app.configure(answers);
   app.configure(questions);
   app.configure(modules);
+  app.configure(slides);
+  app.configure(studentsModules);
 };

@@ -9,7 +9,6 @@ module.exports = function(app) {
 
   const options = {
     Model,
-    paginate,
     id: 'idUtente',
     whitelist: ['$eager', '$joinRelation'],
     allowedEager: 'user'

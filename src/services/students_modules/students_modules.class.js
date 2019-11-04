@@ -1,6 +1,6 @@
 const { Service } = require('feathers-objection');
 
-exports.Certificates = class Certificates extends Service {
+exports.StudentsModules = class StudentsModules extends Service {
   constructor(options) {
     const { Model, ...otherOptions } = options;
 
@@ -9,8 +9,4 @@ exports.Certificates = class Certificates extends Service {
       model: Model
     });
   }
-
-  // async create(data, params) {
-
-  // }
 };

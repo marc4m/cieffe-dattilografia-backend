@@ -1,5 +1,22 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
+const { populate } = require('feathers-hooks-common');
+
+const certificateStudentSchema = {
+  include: [
+    {
+      service: 'student',
+      nameAs: 'student',
+      parentField: 'idUtente',
+      childField: 'idStudent'
+    }
+  ]
+};
+
+const { iff } = require('feathers-hooks-common');
+
+const isPartner = () => async context => context.params.user.role == 'partner';
+const isStudent = () => async context => context.params.user.role == 'student';
 
 const checkCredits = () => async context => {
   const { params } = context;
@@ -33,7 +50,7 @@ const checkPartner = () => async context => {
   const { permitted, user } = params;
 
   context.data.idPartner = user.id;
-  context.data.enabled = false;
+  // context.data.enabled = 0;
 
   // Sono admin
   if (permitted) return context;
@@ -56,7 +73,15 @@ const checkPartner = () => async context => {
 
 module.exports = {
   before: {
-    all: [],
+    all: [
+      async context => {
+        context.params.query = {
+          ...context.params.query,
+          $eager: '[student]'
+        };
+        return context;
+      }
+    ],
     find: [], //Ci possono stare solo codice fiscale, protocollo e tutti e due
     get: [
       /* admin, partner dello studente o studente e verificare se è abilitato*/
@@ -75,7 +100,7 @@ module.exports = {
 
         // Metto le registrizioni
         context.params.query = {
-          enabled: true,
+          enabled: 1,
           $or: [{ idStudent: user.id }, { idPartner: user.id }]
         };
 
@@ -86,11 +111,24 @@ module.exports = {
       /* admin, partner dello studente */
       authenticate('jwt'),
       checkPermissions({
-        roles: ['admin'],
+        roles: ['admin', 'partner', 'student'],
         field: 'role',
-        error: false
+        error: true
       }),
-      checkPartner()
+      iff(isPartner(), async context => {
+        // Devo controllare che idStudent è un mio studente
+        context.data.idPartner = context.params.user.id;
+        context.data.enabled = 0;
+
+        return context;
+      }),
+      iff(isStudent(), async context => {
+        // Posso inserire solo i certificati miei
+        context.data.idPartner = context.params.user.student.idPartner;
+        context.data.idStudent = context.params.user.id;
+        context.data.enabled = 0;
+        return context;
+      })
     ],
     patch: [
       /* admin, partner dello studente + rimozione credito */
@@ -109,7 +147,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [removeCredits()],
     update: [],
     patch: [removeCredits()],
     remove: []
