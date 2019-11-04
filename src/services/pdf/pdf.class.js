@@ -12,6 +12,10 @@ exports.Pdf = class Pdf {
     return this.html;
   }
 
+  setup(app){
+    this.app = app;
+  }
+
   async get(id, params) {
     // pdf.create(html, { format: 'Letter' }).toStream(function(err, stream) {
     //   if (err) {
@@ -22,6 +26,15 @@ exports.Pdf = class Pdf {
 
     //   stream.pipe(res); // your response
     // });
+    try{
+      const student = this.app.service('certificates');
+      const tmp = await student.get(1,{query:{$eager:'student'}});
+      //const debug = await student.find();
+      console.log(tmp);
+    }catch(e){
+      console.log(id);
+      console.log(e);
+    }
 
     let file = this.html;
     let now = moment().format('DD/MM/YYYY');

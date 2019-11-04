@@ -85,7 +85,7 @@ module.exports = {
     find: [], //Ci possono stare solo codice fiscale, protocollo e tutti e due
     get: [
       /* admin, partner dello studente o studente e verificare se è abilitato*/
-      authenticate('jwt'),
+      /*authenticate('jwt'),
       checkPermissions({
         roles: ['admin'],
         field: 'role',
@@ -105,7 +105,7 @@ module.exports = {
         };
 
         return context;
-      }
+      }*/
     ],
     create: [
       /* admin, partner dello studente */
