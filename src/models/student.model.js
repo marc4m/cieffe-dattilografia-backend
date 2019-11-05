@@ -1,8 +1,9 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 const { Model } = require('objection');
+const softDelete = require('objection-soft-delete');
 
-class student extends Model {
+class student extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
     return 'student';
   }

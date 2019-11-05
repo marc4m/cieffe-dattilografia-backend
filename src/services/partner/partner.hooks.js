@@ -9,7 +9,15 @@ module.exports = {
       checkPermissions({
         roles: ['admin'],
         field: 'role'
-      })
+      }),
+      async context => {
+        context.params.query = {
+          ...context.params.query,
+          $eager: '[user]',
+          deleted: false
+        };
+        return context;
+      }
     ],
     find: [],
     get: [],
@@ -20,7 +28,7 @@ module.exports = {
   },
 
   after: {
-    all: [protect('user.password')],
+    all: [protect('user.password', 'deleted')],
     find: [],
     get: [],
     create: [],

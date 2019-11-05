@@ -50,6 +50,7 @@
     "knex": "^0.19.5",
     "mysql2": "^1.7.0",
     "objection": "^1.6.11",
+    "objection-soft-delete": "^1.0.7",
     "pdf-puppeteer": "^1.1.9",
     "serve-favicon": "^2.5.0",
     "shuffle-array": "^1.0.1",

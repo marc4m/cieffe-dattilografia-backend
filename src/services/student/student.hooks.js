@@ -14,7 +14,8 @@ module.exports = {
       async context => {
         context.params.query = {
           ...context.params.query,
-          $eager: '[partner]'
+          $eager: '[partner, user]',
+          deleted: false
         };
         return context;
       },
@@ -93,7 +94,7 @@ module.exports = {
   },
 
   after: {
-    all: [protect('user.password')],
+    all: [protect('user.password', 'deleted')],
     find: [],
     get: [],
     create: [],
