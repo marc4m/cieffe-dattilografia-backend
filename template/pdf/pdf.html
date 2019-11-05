@@ -8,8 +8,6 @@ page1 {
   background: white;
   display: block;
   margin: 0 auto;
-  margin-bottom: 0.5cm;
-  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
   background-image: url("http://localhost:3030/background/background1.jpg");
   background-position: center;
   background-repeat: no-repeat;
@@ -24,7 +22,7 @@ page1[size="A4"][layout="landscape"] {
   height: 21cm;
 }
 @media print {
-  body, page1 {
+  body, page1 , page2{
     margin: 0;
     box-shadow: 0;
   }
@@ -33,8 +31,6 @@ page2 {
   background: white;
   display: block;
   margin: 0 auto;
-  margin-bottom: 0.5cm;
-  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
   background-image: url("http://localhost:3030/background/background2.jpg");
   background-position: center;
   background-repeat: no-repeat;
@@ -47,12 +43,6 @@ page2[size="A4"] {
 page2[size="A4"][layout="landscape"] {
   width: 29.7cm;
   height: 21cm;
-}
-@media print {
-  body, page2 {
-    margin: 0;
-    box-shadow: 0;
-  }
 }
 
 h2{
@@ -83,7 +73,7 @@ p{
     <p><b>Prot. $PROTOCOLLO – Attestato rilasciato il $DATARILASCIO<br>nota autorizzativa Nr______ del __/__/____</b></p>
     <p style="text-align: left; margin-left: 25px; margin-right: 25px;">Si certifica che il discente ha frequentato con profitto il Corso di Formazione per l’addestramento
       professionale per la dattilografia svolto in modalità FAD sulla piattaforma www.corsipersonaleata.it ed
-      ha superato in data 11/07/2019 il test di verifica dell’apprendimento.
+      ha superato in data $datasuperamento il test di verifica dell’apprendimento.
       Per verificare la validità giuridica dell’attestato consultare il sito www.corsipersonaleata.it nell’area
       “validità attestati” oppure scansionare il Qr code</p>
     <p style="text-align: left; margin-left: 25px; margin-right: 25px;">
@@ -99,7 +89,7 @@ p{
 
 <page2 size="A4" >
   <div>
-    <h2 style="padding-top: 70px; margin-left: 40px; text-align:left">Corso di addestramento professionale per la Dattilografia</h2>
+    <h2 style="padding-top: 30px; margin-left: 40px; text-align:left">Corso di addestramento professionale per la Dattilografia</h2>
     <p style="margin-left: 40px; text-align:left">Durata: 90 ore</p>
     <p style="margin-left: 40px; text-align:left"><strong>Programma del corso:</strong></p>
     <p style="margin-left: 40px; text-align:left"><strong>MODULO 1 TASTIERA CIECA (25 ORE)</strong></p>
