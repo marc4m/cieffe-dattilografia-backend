@@ -51,8 +51,8 @@ class modules extends Model {
 
   static get namedFilters() {
     return {
-      abc(builder) {
-        builder.where('idUtente', '=', 1);
+      superati(builder) {
+        builder.where('corretAnswers', '>', 5);
       }
     };
   }

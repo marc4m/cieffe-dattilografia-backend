@@ -18,7 +18,7 @@ module.exports = {
       async context => {
         context.params.query = {
           ...context.params.query,
-          $eager: '[student.[certificates, modules], partner]'
+          $eager: '[student.[certificates, modules(superati)], partner]'
         };
         return context;
       }
