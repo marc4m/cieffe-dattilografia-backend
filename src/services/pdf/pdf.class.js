@@ -1,51 +1,47 @@
 const fs = require('fs');
+const moment = require('moment');
+const pdfhtml = require('html-pdf');
 
 /* eslint-disable no-unused-vars */
 exports.Pdf = class Pdf {
   constructor(options) {
     this.options = options || {};
-    this.html = fs.readFileSync('./template/dattilografia.html', 'utf8');
+    this.html = fs.readFileSync('./template/pdf/pdf.html', 'utf8');
   }
 
   async find(params) {
     return this.html;
   }
 
-  async get(id, params) {
-    // pdf.create(html, { format: 'Letter' }).toStream(function(err, stream) {
-    //   if (err) {
-    //     res.json({
-    //       message: 'Sorry, we were unable to generate pdf'
-    //     });
-    //   }
-
-    //   stream.pipe(res); // your response
-    // });
-
-    let file = this.html;
-
-    file = file.replace('{NOMEVINCITORE}', 'Enrico Ditto');
-
-    return file;
+  setup(app){
+    this.app = app;
   }
 
-  // async create (data, params) {
-  //   if (Array.isArray(data)) {
-  //     return Promise.all(data.map(current => this.create(current, params)));
-  //   }
+  async get(id, params) {
+ 
+    const certificates = this.app.service('certificates');
+    const partnerService = this.app.service('partner');
+    const result = await certificates.get(id,{query:{$eager:'student'}});
+    const student = result.student;
+    const partner = await partnerService.get(student.idPartner);
+    let partnerLogo = partner.logoLink;
 
-  //   return data;
-  // }
-
-  // async update (id, data, params) {
-  //   return data;
-  // }
-
-  // async patch (id, data, params) {
-  //   return data;
-  // }
-
-  // async remove (id, params) {
-  //   return { id };
-  // }
+    let file = this.html;
+    let now = moment().format('DD/MM/YYYY');
+    
+    file = file.replace('$NOME', student.nome.toUpperCase());
+    file = file.replace('$COGNOME', student.cognome.toUpperCase());
+    file = file.replace('$CITTA', student.comuneNascita.toUpperCase());
+    file = file.replace('$DATA', moment(student.dataNascita).format('DD/MM/YYYY'));
+    file = file.replace('$PROTOCOLLO', result.number);
+    file = file.replace('$DATARILASCIO', moment(result.createdAt).format('DD/MM/YYYY'));
+    file = file.replace('$datasuperamento', moment(result.createdAt).format('DD/MM/YYYY'));
+    file = file.replace('XXXXXXX', now);
+    if(partnerLogo!=null){ 
+      file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="'+partnerLogo+'"></img>');
+    }else{
+      file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="http://localhost:3030/background/default.jpg"></img>');
+    }
+    return file;
+  }
 };

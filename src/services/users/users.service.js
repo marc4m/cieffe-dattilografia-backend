@@ -11,13 +11,13 @@ module.exports = function(app) {
     Model,
     paginate,
     whitelist: ['$eager', '$joinRelation'],
-    allowedEager: '[partner, student]',
+    allowedEager: '[partner, student.[certificates, modules]]',
     allowedInsert: '[partner, student]',
-    allowedUpsert: '[partner, student]',
-    insertGraphOptions: true,
-    upsertGraphOptions: {
-      relate: true
-    }
+    allowedUpsert: '[partner, student]'
+    // insertGraphOptions: true,
+    // upsertGraphOptions: {
+    //   relate: true
+    // }
   };
 
   // Initialize our service with any options it requires

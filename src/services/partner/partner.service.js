@@ -5,14 +5,14 @@ const hooks = require('./partner.hooks');
 
 module.exports = function(app) {
   const Model = createModel(app);
-  const paginate = app.get('paginate');
+  // const paginate = app.get('paginate');
 
   const options = {
     Model,
-    paginate,
     id: 'idUtente',
     whitelist: ['$eager', '$joinRelation'],
-    allowedEager: 'user'
+    allowedEager: 'user',
+    allowedUpsert: 'user'
   };
 
   // Initialize our service with any options it requires

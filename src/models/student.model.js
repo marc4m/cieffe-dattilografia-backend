@@ -1,8 +1,9 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 const { Model } = require('objection');
+const softDelete = require('objection-soft-delete');
 
-class student extends Model {
+class student extends softDelete({ columnName: 'deleted' })(Model) {
   static get tableName() {
     return 'student';
   }
@@ -17,6 +18,7 @@ class student extends Model {
       required: ['nome', 'cognome'],
 
       properties: {
+        idUtente: { type: 'integer' },
         nome: { type: 'string' },
         cognome: { type: 'string' },
         genere: { type: 'number' },
@@ -28,16 +30,11 @@ class student extends Model {
     };
   }
 
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
-  }
-
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
-  }
-
   static get relationMappings() {
     const User = require('./users.model')();
+    const Certificates = require('./certificates.model')();
+    const Modules = require('./modules.model')();
+    const Partner = require('./partner.model')();
 
     return {
       user: {
@@ -47,6 +44,48 @@ class student extends Model {
           from: 'student.idUtente',
           to: 'users.id'
         }
+      },
+      partner: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Partner,
+        join: {
+          from: 'student.idPartner',
+          to: 'partner.idUtente'
+        }
+      },
+      certificates: {
+        relation: Model.HasManyRelation,
+        modelClass: Certificates,
+        join: {
+          from: 'student.idUtente',
+          to: 'certificates.idStudent'
+        }
+      },
+      modules: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Modules,
+        join: {
+          from: 'student.idUtente',
+          through: {
+            from: 'students_modules.idStudent',
+            to: 'students_modules.idModule',
+            extra: ['corretAnswers', 'incorrectAnswers']
+          },
+          to: 'modules.id'
+        }
+      }
+    };
+  }
+
+  static get namedFilters() {
+    return {
+      aaa(builder) {
+        // builder.select('idUtente');
+        builder
+          .where('idUtente', 1)
+          .select('idUtente')
+          .pluck('idUtente');
+        // builder.pluck('idUtente');
       }
     };
   }
