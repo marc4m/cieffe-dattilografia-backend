@@ -15,7 +15,7 @@ class users extends Model {
       properties: {
         email: { type: 'string' },
         password: 'string',
-        role: { type: 'string', enum: ['student', 'partner'] }
+        role: { type: 'string', enum: ['student', 'partner', 'admin'] }
       }
     };
   }

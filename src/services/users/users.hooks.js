@@ -10,7 +10,8 @@ const { setField } = require('feathers-authentication-hooks');
 const { iff } = require('feathers-hooks-common');
 const checkPermissions = require('feathers-permissions');
 
-const isPartner = () => async context => context.params.user.role == 'partner';
+const isPartner = () => async context =>
+  context.params.user && context.params.user.role == 'partner';
 
 module.exports = {
   before: {
@@ -32,7 +33,6 @@ module.exports = {
         roles: ['admin', 'partner'],
         field: 'role'
       }),
-
       iff(
         isPartner(),
         async context => {
@@ -65,7 +65,7 @@ module.exports = {
         as: 'data.student.idPartner'
       }),
       iff(isPartner(), async context => {
-        context.data.role = 'student';
+        if (context.data) context.data.role = 'student';
         return context;
       })
     ],

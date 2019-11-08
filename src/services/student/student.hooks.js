@@ -1,30 +1,38 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const { protect } = require('@feathersjs/authentication-local').hooks;
+
+const {
+  protect,
+  hashPassword
+} = require('@feathersjs/authentication-local').hooks;
+
 const { iff } = require('feathers-hooks-common');
 
 const { setField } = require('feathers-authentication-hooks');
 const checkPermissions = require('feathers-permissions');
 
-const isNotAdmin = () => async context => context.params.user.role !== 'admin';
-const isPartner = () => async context => context.params.user.role == 'partner';
+const isNotAdmin = () => async context =>
+  context.params.user && context.params.user.role !== 'admin';
+
+const isPartner = () => async context =>
+  context.params.user && context.params.user.role == 'partner';
 
 module.exports = {
   before: {
     all: [
-      async context => {
-        context.params.query = {
-          ...context.params.query,
-          $eager: '[partner, user]',
-          deleted: false
-        };
-        return context;
-      },
       authenticate('jwt'),
       checkPermissions({
         roles: ['admin', 'partner'],
         field: 'role',
         error: false
-      })
+      }),
+      async context => {
+        context.params.query = {
+          ...context.params.query,
+          $eager: '[user, partner]',
+          deleted: false
+        };
+        return context;
+      }
     ],
     find: [
       iff(
@@ -68,7 +76,8 @@ module.exports = {
           from: 'params.user.id',
           as: 'data.idPartner'
         })
-      ])
+      ]),
+      hashPassword('user.password')
     ],
     patch: [
       iff(isNotAdmin(), [
@@ -80,7 +89,8 @@ module.exports = {
           from: 'params.user.id',
           as: 'data.idPartner'
         })
-      ])
+      ]),
+      hashPassword('user.password')
     ],
     remove: [
       iff(
