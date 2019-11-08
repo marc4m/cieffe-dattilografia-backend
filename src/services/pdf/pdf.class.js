@@ -25,10 +25,8 @@ exports.Pdf = class Pdf {
     const student = result.student;
     const partner = await partnerService.get(student.idPartner);
     let partnerLogo = partner.logoLink;
-
     let file = this.html;
     let now = moment().format('DD/MM/YYYY');
-    
     file = file.replace('$NOME', student.nome.toUpperCase());
     file = file.replace('$COGNOME', student.cognome.toUpperCase());
     file = file.replace('$CITTA', student.comuneNascita.toUpperCase());
@@ -40,7 +38,7 @@ exports.Pdf = class Pdf {
     if(partnerLogo!=null){ 
       file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="'+partnerLogo+'"></img>');
     }else{
-      file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="http://localhost:3030/background/default.jpg"></img>');
+      file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="/background/default.jpg"></img>');
     }
     return file;
   }
