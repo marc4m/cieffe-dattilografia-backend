@@ -1,51 +1,15 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
-const { populate } = require('feathers-hooks-common');
-
-const certificateStudentSchema = {
-  include: [
-    {
-      service: 'student',
-      nameAs: 'student',
-      parentField: 'idUtente',
-      childField: 'idStudent'
-    }
-  ]
-};
 
 const { iff } = require('feathers-hooks-common');
 
-const isPartner = () => async context => context.params.user.role == 'partner';
-const isStudent = () => async context => context.params.user.role == 'student';
+const isPartner = () => async context =>
+  context.params.user && context.params.user.role == 'partner';
 
-const checkCredits = () => async context => {
-  const { params } = context;
-  const { permitted, user } = params;
+const isStudent = () => async context =>
+  context.params.user && context.params.user.role == 'student';
 
-  // Sono admin quindi non ho il vincolo sui crediti
-  if (permitted) return context;
-
-  // Controllo se l'utente ha i crediti per create l'attestato.
-  if (user.credits <= 0) throw new Error('Non hai abbastanza crediti');
-
-  return context;
-};
-
-const removeCredits = () => async context => {
-  const { params, app } = context;
-  const { permitted, user } = params;
-
-  // Sono admin quindi non tolgo il credito
-  if (permitted) return context;
-
-  const { id, credits } = user;
-
-  await app.service('users').patch(id, { credits: credits - 1 });
-
-  return context;
-};
-
-const checkPartner = () => async context => {
+/*const checkPartner = () => async context => {
   const { params, app, data } = context;
   const { permitted, user } = params;
 
@@ -69,7 +33,7 @@ const checkPartner = () => async context => {
   }
 
   return context;
-};
+}; */
 
 module.exports = {
   before: {
@@ -131,15 +95,12 @@ module.exports = {
       })
     ],
     patch: [
-      /* admin, partner dello studente + rimozione credito */
       authenticate('jwt'),
       checkPermissions({
         roles: ['admin'],
         field: 'role',
         error: false
-      }),
-      checkPartner(),
-      checkCredits()
+      })
     ]
   },
 
@@ -147,19 +108,19 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [removeCredits()],
+    create: [],
     update: [],
-    patch: [removeCredits()],
+    patch: [],
+    remove: []
+  },
+
+  error: {
+    all: [],
+    find: [],
+    get: [],
+    create: [],
+    update: [],
+    patch: [],
     remove: []
   }
-
-  // error: {
-  //   all: [],
-  //   find: [],
-  //   get: [],
-  //   create: [],
-  //   update: [],
-  //   patch: [],
-  //   remove: []
-  // }
 };
