@@ -38,7 +38,7 @@ exports.Pdf = class Pdf {
     if(partnerLogo!=null){ 
       file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="'+partnerLogo+'"></img>');
     }else{
-      file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="/background/default.jpg"></img>');
+      file = file.replace('$PARTNERLOGO','<br><br><br><br><br><br><br><br><br>');
     }
     return file;
   }
