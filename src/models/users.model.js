@@ -10,21 +10,14 @@ class users extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['password'],
+      required: ['email', 'password', 'role'],
 
       properties: {
-        email: { type: ['string', 'null'] },
-        password: 'string'
+        email: { type: 'string' },
+        password: 'string',
+        role: { type: 'string', enum: ['student', 'partner', 'admin'] }
       }
     };
-  }
-
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
-  }
-
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
   }
 
   static get relationMappings() {

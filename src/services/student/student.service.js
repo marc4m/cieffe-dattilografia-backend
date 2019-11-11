@@ -5,14 +5,19 @@ const hooks = require('./student.hooks');
 
 module.exports = function(app) {
   const Model = createModel(app);
-  const paginate = app.get('paginate');
+  // const paginate = app.get('paginate');
 
   const options = {
     Model,
-    paginate,
     id: 'idUtente',
-    whitelist: ['$eager', '$joinRelation'],
-    allowedEager: 'user'
+    whitelist: ['$eager', '$joinRelation', '$joinEager'],
+    allowedEager: '[user, partner, certificates, modules]',
+    allowedInsert: '[user, certificates, modules]',
+    allowedUpsert: '[user, certificates, modules]',
+    insertGraphOptions: true,
+    upsertGraphOptions: {
+      relate: true
+    }
   };
 
   // Initialize our service with any options it requires

@@ -1,31 +1,79 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 
 const {
-  hashPassword,
-  protect
+  protect,
+  hashPassword
 } = require('@feathersjs/authentication-local').hooks;
+
+const { setField } = require('feathers-authentication-hooks');
+
+const { iff } = require('feathers-hooks-common');
+const checkPermissions = require('feathers-permissions');
+
+const isPartner = () => async context =>
+  context.params.user && context.params.user.role == 'partner';
 
 module.exports = {
   before: {
-    all: [],
-    find: [
-      // authenticate('jwt')
+    all: [
+      async context => {
+        context.params.query = {
+          ...context.params.query,
+          $eager: '[student.[certificates, modules(superati)], partner]'
+        };
+        return context;
+      }
     ],
-    get: [
-      // authenticate('jwt')
+    find: [],
+    get: [authenticate('jwt')],
+    create: [
+      authenticate('jwt'),
+      hashPassword('password'),
+      checkPermissions({
+        roles: ['admin', 'partner'],
+        field: 'role'
+      }),
+      iff(
+        isPartner(),
+        async context => {
+          context.data.role = 'student';
+          return context;
+        },
+        setField({
+          from: 'params.user.id',
+          as: 'data.student.idPartner'
+        })
+      )
     ],
-    create: [hashPassword('password')],
-    update: [hashPassword('password'), authenticate('jwt')],
-    patch: [hashPassword('password'), authenticate('jwt')],
+    update: [
+      authenticate('jwt'),
+      hashPassword('password'),
+      setField({
+        from: 'params.user.id',
+        as: 'data.student.idPartner'
+      }),
+      iff(isPartner(), async context => {
+        context.data.role = 'student';
+        return context;
+      })
+    ],
+    patch: [
+      authenticate('jwt'),
+      hashPassword('password'),
+      setField({
+        from: 'params.user.id',
+        as: 'data.student.idPartner'
+      }),
+      iff(isPartner(), async context => {
+        if (context.data) context.data.role = 'student';
+        return context;
+      })
+    ],
     remove: [authenticate('jwt')]
   },
 
   after: {
-    all: [
-      // Make sure the password field is never sent to the client
-      // Always must be the last hook
-      protect('password')
-    ],
+    all: [protect('password')],
     find: [],
     get: [],
     create: [],
