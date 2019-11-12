@@ -27,6 +27,6 @@
   },
   "mysql": {
     "client": "mysql2",
-    "connection": "mysql://opznwans_timeout:J2uoXmPxT@nicmarrol.com:3306/opznwans_timeout_dattilografia"
+    "connection": "mysql://opznwans_timeout:J2uoXmPxT@nicmarrol.com:3306/opznwans_dattilografia_dev"
   }
 }
