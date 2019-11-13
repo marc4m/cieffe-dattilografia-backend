@@ -18,6 +18,8 @@ const slides = require('./slides/slides.service.js');
 
 const studentsModules = require('./students_modules/students_modules.service.js');
 
+const generator = require('./generator/generator.service.js');
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function(app) {
   app.configure(users);
@@ -30,4 +32,5 @@ module.exports = function(app) {
   app.configure(modules);
   app.configure(slides);
   app.configure(studentsModules);
+  app.configure(generator);
 };

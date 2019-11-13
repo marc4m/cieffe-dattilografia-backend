@@ -10,7 +10,7 @@ exports.Slides = class Slides extends Service {
     });
   }
 
-  // Creo l'oggetto quiz
+  /* Creo l'oggetto quiz
   async find(params) {
     const result = await super.find(params);
 
@@ -27,5 +27,5 @@ exports.Slides = class Slides extends Service {
     });
 
     return imagesToBase64;
-  }
+  } */
 };
