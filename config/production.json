@@ -1,4 +1,9 @@
 {
   "host": "test.nicmarrol.com",
-  "port": "80"
+  "port": "80",
+  "mysql": {
+    "client": "mysql2",
+    "connection": "mysql://opznwans_timeout:J2uoXmPxT@nicmarrol.com:3306/opznwans_timeout_dattilografia"
+  }
 }
+
