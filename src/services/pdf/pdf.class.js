@@ -17,8 +17,14 @@ exports.Pdf = class Pdf {
     this.app = app;
   }
 
+  pad(n, width, z) {
+    z = z || '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
+
   async get(id, params) {
- 
+    
     const certificates = this.app.service('certificates');
     const partnerService = this.app.service('partner');
     const result = await certificates.get(id,{query:{$eager:'student'}});
@@ -27,18 +33,19 @@ exports.Pdf = class Pdf {
     let partnerLogo = partner.logoLink;
     let file = this.html;
     let now = moment().format('DD/MM/YYYY');
+
     file = file.replace('$NOME', student.nome.toUpperCase());
     file = file.replace('$COGNOME', student.cognome.toUpperCase());
     file = file.replace('$CITTA', student.comuneNascita.toUpperCase());
     file = file.replace('$DATA', moment(student.dataNascita).format('DD/MM/YYYY'));
-    file = file.replace('$PROTOCOLLO', result.number);
+    file = file.replace('$PROTOCOLLO', this.pad(result.number,6));
     file = file.replace('$DATARILASCIO', moment(result.createdAt).format('DD/MM/YYYY'));
     file = file.replace('$datasuperamento', moment(result.createdAt).format('DD/MM/YYYY'));
     file = file.replace('XXXXXXX', now);
     if(partnerLogo!=null){ 
       file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="'+partnerLogo+'"></img>');
     }else{
-      file = file.replace('$PARTNERLOGO','<br><br><br><br><br><br><br><br><br>');
+      file = file.replace('$PARTNERLOGO','<br><br><br><br><br><br><br><br><br><br>');
     }
     return file;
   }
