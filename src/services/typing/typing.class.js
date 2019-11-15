@@ -1,6 +1,6 @@
 const { Service } = require('feathers-objection');
 
-exports.StudentsModules = class StudentsModules extends Service {
+exports.Typing = class Typing extends Service {
   constructor(options) {
     const { Model, ...otherOptions } = options;
 
