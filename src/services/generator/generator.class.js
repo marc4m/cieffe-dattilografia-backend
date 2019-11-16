@@ -1,14 +1,12 @@
 /* eslint-disable no-unused-vars */
 exports.Generator = class Generator {
-  setup(app){
+  setup(app) {
     this.app = app;
   }
 
-  async create (data, params) {
-
+  async create(data, params) {
     const certificatesServ = this.app.service('certificates');
     const modulesServ = this.app.service('modules');
-    
 
     try {
       // Creo il certificato
@@ -24,12 +22,16 @@ exports.Generator = class Generator {
           }
         ]
       };
-      await Promise.all([modulesServ.patch(1,mod),modulesServ.patch(2,mod),modulesServ.patch(3,mod)]);
+      await Promise.all([
+        modulesServ.patch(1, mod),
+        modulesServ.patch(2, mod),
+        modulesServ.patch(3, mod)
+      ]);
 
       // Creo le risposte fake
 
       return certificateResult;
-    } catch(e){
+    } catch (e) {
       //console.log(e);
     }
   }
