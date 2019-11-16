@@ -30,7 +30,7 @@ exports.Pdf = class Pdf {
     const result = await certificates.get(id,{query:{$eager:'student'}});
     const student = result.student;
     const partner = await partnerService.get(student.idPartner);
-    let partnerLogo = partner.logoLink;
+    let partnerLogo = partner.blobLogo;
     let file = this.html;
     let now = moment().format('DD/MM/YYYY');
 
@@ -42,8 +42,8 @@ exports.Pdf = class Pdf {
     file = file.replace('$DATARILASCIO', moment(result.createdAt).format('DD/MM/YYYY'));
     file = file.replace('$datasuperamento', moment(result.createdAt).format('DD/MM/YYYY'));
     file = file.replace('XXXXXXX', now);
-    if(partnerLogo!=null){ 
-      file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="'+partnerLogo+'"></img>');
+    if(partnerLogo!=null){
+      file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="data:image/jpg;base64, '+partnerLogo+'"></img>');
     }else{
       file = file.replace('$PARTNERLOGO','<br><br><br><br><br><br><br><br><br><br>');
     }
