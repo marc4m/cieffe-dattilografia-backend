@@ -13,6 +13,8 @@ const typing = require('./typing/typing.service.js');
 
 const report = require('./report/report.service.js');
 
+const studentsAnswers = require('./students-answers/students-answers.service.js');
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function(app) {
   app.configure(users);
@@ -27,4 +29,5 @@ module.exports = function(app) {
   app.configure(generator);
   app.configure(typing);
   app.configure(report);
+  app.configure(studentsAnswers);
 };

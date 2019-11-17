@@ -3,13 +3,13 @@ const { Answers } = require('./answers.class');
 const createModel = require('../../models/answers.model');
 const hooks = require('./answers.hooks');
 
-module.exports = function (app) {
+module.exports = function(app) {
   const Model = createModel(app);
-  const paginate = app.get('paginate');
+  //const paginate = app.get('paginate');
 
   const options = {
-    Model,
-    paginate
+    Model
+    //paginate
   };
 
   // Initialize our service with any options it requires
