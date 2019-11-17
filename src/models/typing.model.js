@@ -3,7 +3,6 @@
 const { Model } = require('objection');
 
 class typing extends Model {
-
   static get tableName() {
     return 'typing';
   }
@@ -11,24 +10,18 @@ class typing extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['textIndex', 'correctWords', 'wrongWords', 'stopWatch'],
 
       properties: {
-        text: { type: 'string' }
+        textIndex: { type: 'interger' },
+        correctWords: { type: 'interger' },
+        wrongWords: { type: 'interger' }
+        //textIndex: { type: 'interger' },
       }
     };
   }
-
-  $beforeInsert() {
-    this.createdAt = this.updatedAt = new Date().toISOString();
-  }
-
-  $beforeUpdate() {
-    this.updatedAt = new Date().toISOString();
-  }
 }
 
-module.exports = function () {
-
+module.exports = function() {
   return typing;
 };
