@@ -43,10 +43,8 @@ exports.Report = class Report {
     let i=0;
     for (i = 1; i <= 30; i++) {
       file = file.replace('$DOMANDA'+i, "DOMANDA DI TEST "+i);
-      let risposta1 = "<input checked type=\"radio\" > Risposta 1<br>";
-      let risposta2 = "<input checked type=\"radio\" > Risposta 2<br>";
-      let risposta3 = "<input checked type=\"radio\" > Risposta 3<br>";
-      file = file.replace('$RISPOSTE'+i, risposta1+risposta2+risposta3);
+      let risposta = "<input checked type=\"radio\" > Risposta 1<br>";
+      file = file.replace('$RISPOSTE'+i, risposta);
     }
     
     //module 4 report
