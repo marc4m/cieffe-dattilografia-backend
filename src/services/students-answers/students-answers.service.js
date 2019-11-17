@@ -5,7 +5,9 @@ const hooks = require('./students-answers.hooks');
 
 module.exports = function(app) {
   const options = {
-    Model: createModel(app)
+    Model: createModel(app),
+    id: ['idStudent', 'idQuestion', 'idAnswer'],
+    idSeparator: ','
     //paginate: app.get('paginate')
   };
 

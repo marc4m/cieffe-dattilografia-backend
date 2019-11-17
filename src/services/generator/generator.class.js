@@ -38,21 +38,27 @@ exports.Generator = class Generator {
         }
       });
 
+      const { idStudent } = data;
+
       const arr = correctAnswer.map(el => {
-        const { id, correct, text, ...realEl } = el;
+        const { id, correct, text, idQuestion, ...realEl } = el;
 
         return {
-          idCertificate: certificateResult.id,
-          idStudent: data.idStudent,
+          idStudent,
           idAnswer: id,
           isCorrect: 1,
-          ...realEl
+          idQuestion
         };
       });
 
-      const promises = arr.map(element => studentAnswerServ.create(element));
+      // const promises = arr.map(
+      //   async element => await studentAnswerServ.create(element)
+      // );
+      // await Promise.all(promises);
 
-      await Promise.all(promises);
+      arr.forEach(async element => {
+        await studentAnswerServ.create(element);
+      });
 
       return certificateResult;
     } catch (e) {
