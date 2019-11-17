@@ -32,19 +32,21 @@ exports.Questions = class Questions extends Service {
 
     // Creo l'oggetto come lo vuole il frontend
     const questions = shuffledQuestions.map(question => {
-      const { text, answers, point, type: questionType } = question;
+      const { id, text, answers, point, type: questionType } = question;
 
       const shuffledAnswers = shuffle(answers);
 
-      const answersTextArray = shuffledAnswers.map(({ text }) => text);
+      const answersTextArray = shuffledAnswers.map(({ id, text }) => ({id, text}));
+      
       const answerCorrectIndex = shuffledAnswers.findIndex(
         ({ correct }) => correct === 1
       );
 
       return {
+        id,
         point,
+        text,
         questionType,
-        question: text,
         answerSelectionType: 'single',
         answers: answersTextArray,
         correctAnswer: (answerCorrectIndex + 1).toString(),
