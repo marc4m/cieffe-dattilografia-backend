@@ -11,6 +11,8 @@ const generator = require('./generator/generator.service.js');
 
 const typing = require('./typing/typing.service.js');
 
+const report = require('./report/report.service.js');
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function(app) {
   app.configure(users);
@@ -24,4 +26,5 @@ module.exports = function(app) {
   app.configure(slides);
   app.configure(generator);
   app.configure(typing);
+  app.configure(report);
 };
