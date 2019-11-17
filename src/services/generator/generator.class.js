@@ -1,3 +1,4 @@
+const { Service } = require('feathers-objection');
 /* eslint-disable no-unused-vars */
 exports.Generator = class Generator {
   setup(app) {
@@ -7,7 +8,9 @@ exports.Generator = class Generator {
   async create(data, params) {
     const certificatesServ = this.app.service('certificates');
     const modulesServ = this.app.service('modules');
-
+    const answersServ = this.app.service('answers');
+    const studentAnswerServ = this.app.service('students_answers');
+    //CI VORREBBE UNA GESTIONE DELLA TRANSAZIONE!
     try {
       // Creo il certificato
       const certificateResult = await certificatesServ.create(data, params);
@@ -29,10 +32,32 @@ exports.Generator = class Generator {
       ]);
 
       // Creo le risposte fake
+      const correctAnswer = await answersServ.find({
+        query: {
+          correct: 1
+        }
+      });
+
+      const arr = correctAnswer.map(el => {
+        const { id, correct, text, ...realEl } = el;
+
+        return {
+          idCertificate: certificateResult.id,
+          idStudent: data.idStudent,
+          idAnswer: id,
+          isCorrect: 1,
+          ...realEl
+        };
+      });
+
+      const promises = arr.map(element => studentAnswerServ.create(element));
+
+      await Promise.all(promises);
 
       return certificateResult;
     } catch (e) {
-      //console.log(e);
+      console.log(e);
+      throw new Error(e);
     }
   }
 };
