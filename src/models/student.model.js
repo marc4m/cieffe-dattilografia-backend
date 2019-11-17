@@ -35,8 +35,17 @@ class student extends softDelete({ columnName: 'deleted' })(Model) {
     const Certificates = require('./certificates.model')();
     const Modules = require('./modules.model')();
     const Partner = require('./partner.model')();
+    const Typing = require('./typing.model')();
 
     return {
+      typing: {
+        relation: Model.HasOneRelation,
+        modelClass: Typing,
+        join: {
+          from: 'student.idUtente',
+          to: 'typing.idStudent'
+        }
+      },
       user: {
         relation: Model.BelongsToOneRelation,
         modelClass: User,

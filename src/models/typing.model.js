@@ -20,6 +20,21 @@ class typing extends Model {
       }
     };
   }
+
+  static get relationMappings() {
+    const Student = require('./student.model')();
+
+    return {
+      student: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Student,
+        join: {
+          from: 'typing.idStudent',
+          to: 'student.idUtente'
+        }
+      }
+    };
+  }
 }
 
 module.exports = function() {
