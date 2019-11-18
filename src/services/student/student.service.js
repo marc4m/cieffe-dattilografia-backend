@@ -16,8 +16,8 @@ module.exports = function(app) {
     allowedUpsert: '[user, certificates, modules, answers]',
     insertGraphOptions: true,
     upsertGraphOptions: {
-      relate: true
-      // insertMissing: ['answers']
+      relate: true,
+      noDelete: ['answers', 'modules']
     }
   };
 

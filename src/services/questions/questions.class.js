@@ -36,7 +36,7 @@ exports.Questions = class Questions extends Service {
 
       const shuffledAnswers = shuffle(answers);
 
-      const answersShuffled = shuffledAnswers.map(({ id, text }) => ({
+      const answersShuffled = shuffledAnswers.map(({ id, text, correct }) => ({
         id,
         text
       }));
