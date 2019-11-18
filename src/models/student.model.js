@@ -36,6 +36,7 @@ class student extends softDelete({ columnName: 'deleted' })(Model) {
     const Modules = require('./modules.model')();
     const Partner = require('./partner.model')();
     const Typing = require('./typing.model')();
+    const Answers = require('./answers.model')();
 
     return {
       typing: {
@@ -68,6 +69,19 @@ class student extends softDelete({ columnName: 'deleted' })(Model) {
         join: {
           from: 'student.idUtente',
           to: 'certificates.idStudent'
+        }
+      },
+      answers: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Answers,
+        join: {
+          from: 'student.idUtente',
+          through: {
+            from: 'students_answers.idStudent',
+            to: ['students_answers.idAnswer'],
+            extra: ['isCorrect', 'idQuestion']
+          },
+          to: 'answers.id'
         }
       },
       modules: {

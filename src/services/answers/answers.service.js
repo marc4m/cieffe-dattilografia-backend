@@ -3,7 +3,7 @@ const { Answers } = require('./answers.class');
 const createModel = require('../../models/answers.model');
 const hooks = require('./answers.hooks');
 
-module.exports = function (app) {
+module.exports = function(app) {
   const Model = createModel(app);
   const paginate = app.get('paginate');
 

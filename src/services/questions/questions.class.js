@@ -36,9 +36,12 @@ exports.Questions = class Questions extends Service {
 
       const shuffledAnswers = shuffle(answers);
 
-      const answersTextArray = shuffledAnswers.map(({ id, text }) => ({id, text}));
-      
-      const answerCorrectIndex = shuffledAnswers.findIndex(
+      const answersShuffled = shuffledAnswers.map(({ id, text }) => ({
+        id,
+        text
+      }));
+
+      const correctAnswer = shuffledAnswers.find(
         ({ correct }) => correct === 1
       );
 
@@ -47,9 +50,9 @@ exports.Questions = class Questions extends Service {
         point,
         text,
         questionType,
+        answers: answersShuffled,
         answerSelectionType: 'single',
-        answers: answersTextArray,
-        correctAnswer: (answerCorrectIndex + 1).toString(),
+        correctAnswer: correctAnswer.id,
         messageForCorrectAnswer: 'Risposta corretta. Complimenti.',
         messageForIncorrectAnswer: 'Risposta sbagliata.',
         explanation: 'Spiegazione'
