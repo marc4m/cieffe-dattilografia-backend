@@ -29,34 +29,32 @@ exports.Report = class Report {
     const studentService = this.app.service('student');
     const certificatesService = this.app.service('certificates');
     const typingService = this.app.service('typing');
-    const studentAnswersService = this.app.service('students_answers');
+    const questionsService = this.app.service('questions');
     //loading data
-    const student = await studentService.get(id,{query:{$eager:'students_answers'}});
+    const student = await studentService.get(id,{query:{$eager:'answers.[question]'}});
     const certificates = await certificatesService.find({ query: {idStudent:id}});
     const typingQuery = await typingService.find({ query: {idStudent:id}});
-    
-   
-     try{
-       const studentAnswers = await studentAnswersService.find();
-       console.log(studentAnswers);
-     }catch ( error){
-       console.log("CIAO SONO UN KTM DI ERRORE " , error);
-     }
-
     const typing = typingQuery.data[0];
     const certificate = certificates[0];
 
     file = file.replace('$ID', this.pad(certificate.number,6));
-    file = file.replace('$PUNTEGGIO', 70+'%');
+    
     
     //answers
-    let i=0;
-    for (i = 1; i <= 30; i++) {
-      file = file.replace('$DOMANDA'+i, "DOMANDA DI TEST "+i);
-      let risposta = "<input checked type=\"radio\" > Risposta 1<br>";
+    let percentage=0;
+    student.answers.map((answer,i) => {
+      i=i+1;
+      file = file.replace('$DOMANDA'+i, answer.question.text);
+      let risposta = "<input checked type=\"radio\" > "+answer.text +" "+ (answer.isCorrect == 1 ? "<strong style=\"color:green; margin-left:15px;\">Corretta</strong>" : "<strong style=\"color:red; margin-left:15px; \">Errata</strong>") + "<br>";
       file = file.replace('$RISPOSTE'+i, risposta);
-    }
-    
+      if(answer.isCorrect == 1){
+        percentage++;
+      }
+    })
+
+    percentage = (((percentage)/30)*100).toFixed(2);
+    file = file.replace('$PUNTEGGIO', percentage+'%');
+
     //module 4 report
     if(typing!=null){
       file = file.replace('$HTMLMODULOSCRITTURAVELOCE', "<h4 style=\"text-align:left\">Modulo di scrittura veloce (Facoltativo) Superato.<br>Parole Corrette: " + typing.correctWords + "<br>Parole Errate: "+ typing.wrongWords +"<br>Tempo: " + typing.stopWatch + " </h4>");

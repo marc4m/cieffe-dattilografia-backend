@@ -11,7 +11,7 @@ module.exports = function(app) {
     Model,
     id: 'idUtente',
     whitelist: ['$eager', '$joinRelation', '$joinEager'],
-    allowedEager: '[user, partner, certificates, modules, answers]',
+    allowedEager: '[user, partner, certificates, modules, answers.[question]]',
     allowedInsert: '[user, certificates, modules, answers]',
     allowedUpsert: '[user, certificates, modules, answers]',
     insertGraphOptions: true,
