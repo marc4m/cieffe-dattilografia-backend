@@ -29,10 +29,20 @@ exports.Report = class Report {
     const studentService = this.app.service('student');
     const certificatesService = this.app.service('certificates');
     const typingService = this.app.service('typing');
+    const studentAnswersService = this.app.service('students_answers');
     //loading data
-    const student = await studentService.get(id);
+    const student = await studentService.get(id,{query:{$eager:'students_answers'}});
     const certificates = await certificatesService.find({ query: {idStudent:id}});
     const typingQuery = await typingService.find({ query: {idStudent:id}});
+    
+   
+     try{
+       const studentAnswers = await studentAnswersService.find();
+       console.log(studentAnswers);
+     }catch ( error){
+       console.log("CIAO SONO UN KTM DI ERRORE " , error);
+     }
+
     const typing = typingQuery.data[0];
     const certificate = certificates[0];
 

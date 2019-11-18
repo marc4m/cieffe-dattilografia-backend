@@ -7,7 +7,7 @@ module.exports = function(app) {
   const options = {
     Model: createModel(app),
     id: ['idStudent', 'idQuestion', 'idAnswer'],
-    idSeparator: ','
+    idSeparator: ',',
     //paginate: app.get('paginate')
   };
 
