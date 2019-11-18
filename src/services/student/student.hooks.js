@@ -27,8 +27,8 @@ module.exports = {
       }),
       async context => {
         context.params.query = {
-          ...context.params.query,
           $eager: '[user, partner]',
+          ...context.params.query,
           deleted: false
         };
         return context;
