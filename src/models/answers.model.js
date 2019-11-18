@@ -23,6 +23,7 @@ class answers extends Model {
 
   static get relationMappings() {
     const Question = require('./questions.model')();
+    const Student = require('./student.model')();
 
     return {
       question: {
@@ -31,6 +32,19 @@ class answers extends Model {
         join: {
           from: 'answers.idQuestion',
           to: 'questions.id'
+        }
+      },
+      students: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Student,
+        join: {
+          from: 'answers.id',
+          through: {
+            from: 'students_answers.idModule',
+            to: 'students_answers.idStudent',
+            extra: ['isCorrect', 'idQuestion']
+          },
+          to: 'student.idUtente'
         }
       }
     };

@@ -11,12 +11,13 @@ module.exports = function(app) {
     Model,
     id: 'idUtente',
     whitelist: ['$eager', '$joinRelation', '$joinEager'],
-    allowedEager: '[user, partner, certificates, modules]',
-    allowedInsert: '[user, certificates, modules]',
-    allowedUpsert: '[user, certificates, modules]',
+    allowedEager: '[user, partner, certificates, modules, answers]',
+    allowedInsert: '[user, certificates, modules, answers]',
+    allowedUpsert: '[user, certificates, modules, answers]',
     insertGraphOptions: true,
     upsertGraphOptions: {
       relate: true
+      // insertMissing: ['answers']
     }
   };
 

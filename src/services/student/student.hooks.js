@@ -80,7 +80,7 @@ module.exports = {
       hashPassword('user.password')
     ],
     patch: [
-      iff(isNotAdmin(), [
+      iff(isPartner(), [
         setField({
           from: 'params.user.id',
           as: 'params.query.idPartner'

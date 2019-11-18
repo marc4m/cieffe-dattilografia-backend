@@ -11,7 +11,7 @@ module.exports = function(app) {
     Model,
     paginate,
     whitelist: ['$eager', '$joinRelation'],
-    allowedEager: '[partner, student.[certificates, modules]]',
+    allowedEager: '[partner, student.[certificates, modules, typing]]',
     allowedInsert: '[partner, student]',
     allowedUpsert: '[partner, student]'
     // insertGraphOptions: true,
