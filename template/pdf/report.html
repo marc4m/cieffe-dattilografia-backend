@@ -5,22 +5,19 @@
 </head>
 <style type="text/css">
     body {
-      background: rgb(204,204,204); 
+      background: white; 
     }
     page{
       background: #f7faff;
       display: block;
       margin: 0 auto;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
       background-color: #f7faff;
       border-style: solid;
       border-color: #224f82;
     }
     page[size="A4"] {  
       width: 21cm;
-      height: 29.7cm; 
+      height: 29.7cm;
     }
     page[size="A4"][layout="landscape"] {
       width: 29.7cm;
@@ -29,7 +26,6 @@
     @media print {
       body, page{
         margin: 0;
-        box-shadow: 0;
       }
     }
     h2{
@@ -48,7 +44,7 @@
         color: #224f82;
     }
 </style>
-<page size="A4" >
+<page size="A4" style="margin-bottom: 40px;">
     <div style="text-align:center">
         <img style="margin-top: 25px;" src="/background/logo-completo-BLU.png" width="450" >
     </div>
@@ -59,7 +55,7 @@
         <h3>Promosso con $PUNTEGGIO Di Risposte Esatte</h3>
     </div>
     <!-- REPORT -->
-    <div style="margin:15px">
+    <div style="margin:15px;">
         <div id="domanda1" style="margin:25px">
             <h4><strog>1. $DOMANDA1</strog></h4>
             $RISPOSTE1
@@ -98,8 +94,7 @@
         </div>
     </div>
 </page>
-
-<page size="A4">
+<page size="A4" style="margin-bottom: 40px;">
     <div style="margin:15px; padding-top:25px;">
         <div id="domanda10" style="margin:25px">
             <h4><strog>10. $DOMANDA10</strog></h4>
@@ -148,8 +143,8 @@
     </div>
 </page>
 
-<page size="A4">
-    <div style="margin:15px; padding-top:25px;">
+<page size="A4" style="margin-bottom: 40px;">
+    <div style="margin:15px; padding-top:25px; height: 100%;">
         <div id="domanda21" style="margin:25px">
             <h4><strog>21. $DOMANDA21</strog></h4>
             $RISPOSTE21
@@ -200,9 +195,9 @@
             $HTMLMODULOSCRITTURAVELOCE
         </div>
         <div style="margin:25px">
-            <i style="font-size: small;">Il sottoscritto $NOME $COGNOME Con Codice Fiscale: $CF N° DOCUMENTO: $DOCUMENTO.<br>Dichiara di aver frequentato il corso di formazione Per Il Corso Di Addestramento Professionale Per La Dattilografia, erogato online da TimeOut Online
-                Consulting su www.laformazioneadistanza.it - www.corsipersonaleata.it e di aver effettuato personalmente il test il $DATATEST. Dichiara inoltre di aver operato per l'accesso al test i dati inseriti in fase di iscrizione e
-                autorizza Timeout Online Consulting a conservare i dati risultati dalla presente documentazione.</i>
+            <i style="font-size: small;">Il sottoscritto $NOME $COGNOME Con Codice Fiscale: $CF N° DOCUMENTO: $DOCUMENTO.<br>Dichiara di aver frequentato il corso di formazione Per Il Corso Di Addestramento Professionale Per La Dattilografia, erogato online da TimeOut Service
+                su www.corsipersonaleata.it e di aver effettuato personalmente il test il $DATATEST. Dichiara inoltre di aver operato per l'accesso al test i dati inseriti in fase di iscrizione e
+                autorizza Timeout Service a conservare i dati risultati dalla presente documentazione.</i>
         </div>
         <div style="margin:25px; margin-top:55px">
             <h4 style="text-align:right; margin-right: 55px;">FIRMA</h4>
