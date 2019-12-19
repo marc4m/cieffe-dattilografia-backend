@@ -40,7 +40,7 @@ class answers extends Model {
         join: {
           from: 'answers.id',
           through: {
-            from: 'students_answers.idModule',
+            from: 'students_answers.idAnswer',
             to: 'students_answers.idStudent',
             extra: ['isCorrect', 'idQuestion']
           },

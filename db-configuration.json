@@ -1,0 +1,12 @@
+{
+    "host": "nicmarrol.com",
+    "user": "opznwans_timeout",
+    "password": "J2uoXmPxT",
+    "database": "opznwans_dattilografia_log",
+    "table": "logs",
+    "columns"  : {
+        "log"  : "*",
+        "name" : "name",
+        "unix" : "time"
+    }
+}

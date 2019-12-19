@@ -1,8 +1,16 @@
 // Application hooks that run for every service
+const logger = require('pino')();
+
+// const logger = require('./logger');
+
+const saveContextInLog = () => async context => {
+  logger.info(context);
+  return context;
+};
 
 module.exports = {
   before: {
-    all: [],
+    all: [saveContextInLog()],
     find: [],
     get: [],
     create: [],
@@ -12,7 +20,7 @@ module.exports = {
   },
 
   after: {
-    all: [],
+    all: [saveContextInLog()],
     find: [],
     get: [],
     create: [],
@@ -22,7 +30,7 @@ module.exports = {
   },
 
   error: {
-    all: [],
+    all: [saveContextInLog()],
     find: [],
     get: [],
     create: [],
