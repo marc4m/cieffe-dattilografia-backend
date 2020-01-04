@@ -2,8 +2,7 @@
 const { Generator } = require('./generator.class');
 const hooks = require('./generator.hooks');
 
-module.exports = function (app) {
-  
+module.exports = function(app) {
   const paginate = app.get('paginate');
 
   const options = {

@@ -13,7 +13,7 @@ exports.Pdf = class Pdf {
     return this.html;
   }
 
-  setup(app){
+  setup(app) {
     this.app = app;
   }
 
@@ -24,10 +24,9 @@ exports.Pdf = class Pdf {
   }
 
   async get(id, params) {
-    
     const certificates = this.app.service('certificates');
     const partnerService = this.app.service('partner');
-    const result = await certificates.get(id,{query:{$eager:'student'}});
+    const result = await certificates.get(id, { query: { $eager: 'student' } });
     const student = result.student;
     const partner = await partnerService.get(student.idPartner);
     let partnerLogo = partner.blobLogo;
@@ -37,15 +36,32 @@ exports.Pdf = class Pdf {
     file = file.replace('$NOME', student.nome.toUpperCase());
     file = file.replace('$COGNOME', student.cognome.toUpperCase());
     file = file.replace('$CITTA', student.comuneNascita.toUpperCase());
-    file = file.replace('$DATA', moment(student.dataNascita).format('DD/MM/YYYY'));
-    file = file.replace('$PROTOCOLLO', this.pad(result.number,6));
-    file = file.replace('$DATARILASCIO', moment(result.createdAt).format('DD/MM/YYYY'));
-    file = file.replace('$datasuperamento', moment(result.createdAt).format('DD/MM/YYYY'));
+    file = file.replace(
+      '$DATA',
+      moment(student.dataNascita).format('DD/MM/YYYY')
+    );
+    file = file.replace('$PROTOCOLLO', this.pad(result.number, 6));
+    file = file.replace(
+      '$DATARILASCIO',
+      moment(result.createdAt).format('DD/MM/YYYY')
+    );
+    file = file.replace(
+      '$datasuperamento',
+      moment(result.createdAt).format('DD/MM/YYYY')
+    );
     file = file.replace('XXXXXXX', now);
-    if(partnerLogo!=null){
-      file = file.replace('$PARTNERLOGO','<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="data:image/jpg;base64, '+partnerLogo+'"></img>');
-    }else{
-      file = file.replace('$PARTNERLOGO','<br><br><br><br><br><br><br><br><br><br>');
+    if (partnerLogo != null) {
+      file = file.replace(
+        '$PARTNERLOGO',
+        '<img style="margin-left: 10px; margin-top: 15px;" height="150" width="250" src="data:image/jpg;base64, ' +
+          partnerLogo +
+          '"></img>'
+      );
+    } else {
+      file = file.replace(
+        '$PARTNERLOGO',
+        '<br><br><br><br><br><br><br><br><br><br>'
+      );
     }
     return file;
   }
