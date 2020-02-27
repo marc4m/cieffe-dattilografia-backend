@@ -13,7 +13,10 @@ exports.Generator = class Generator {
     //CI VORREBBE UNA GESTIONE DELLA TRANSAZIONE!
     try {
       // Creo il certificato
-      const certificateResult = await certificatesServ.create(data, params);
+      const certificateResult = await certificatesServ.create(
+        { ...data, idPartner: params.user.id },
+        params
+      );
 
       // Creo i moduli fake
       const mod = {
