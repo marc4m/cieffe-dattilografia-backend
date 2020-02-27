@@ -1,6 +1,8 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
 
+const allowAnonymous = require('../../hooks/allow-anonymous');
+
 const { iff } = require('feathers-hooks-common');
 
 const isPartner = () => async context =>
@@ -46,7 +48,35 @@ module.exports = {
         return context;
       }
     ],
-    find: [], //Ci possono stare solo codice fiscale, protocollo e tutti e due
+    find: [
+      allowAnonymous(),
+      authenticate('jwt', 'anonymous'),
+      checkPermissions({
+        roles: ['admin', 'partner'],
+        field: 'role',
+        error: false
+      }),
+      async context => {
+
+        
+        const { params } = context;
+        console.log(params);
+        const { permitted } = params;
+
+        // Sono admin oppure partner
+        if (permitted) return context;
+
+        // Sono un utente comune, devo passare numero e/o codice fiscale
+
+        const {query} = params;
+
+        if (!('codiceFiscale' in query) && !('number' in query)) {
+          throw new Error('Parametri non validi');
+        }
+
+        return context;
+      }
+    ], //Ci possono stare solo codice fiscale, protocollo e tutti e due
     get: [
       /* admin, partner dello studente o studente e verificare se è abilitato 
       authenticate('jwt'),

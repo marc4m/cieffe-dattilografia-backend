@@ -33,8 +33,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 FIX PER I FILE SPERAMM CA FUNZION
 */
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Favicon
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
@@ -62,7 +62,18 @@ app.use('*', function(req, res) {
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
-app.use(express.errorHandler({ logger }));
+// app.use(express.errorHandler({ logger }));
+
+app.use(express.errorHandler({
+  html: function(error, req, res) {
+    // render your error view with the error object
+    console.log(error);
+    res.status(error.code || 500);
+    res.json(error);
+  },
+  logger
+}));
+
 
 app.hooks(appHooks);
 
