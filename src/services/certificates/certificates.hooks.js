@@ -1,41 +1,15 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const checkPermissions = require('feathers-permissions');
-
-const allowAnonymous = require('../../hooks/allow-anonymous');
-
 const { iff } = require('feathers-hooks-common');
+
+const apiKey = require('../../hooks/api-key');
+const allowAnonymous = require('../../hooks/allow-anonymous');
 
 const isPartner = () => async context =>
   context.params.user && context.params.user.role == 'partner';
 
 const isStudent = () => async context =>
   context.params.user && context.params.user.role == 'student';
-
-/*const checkPartner = () => async context => {
-  const { params, app, data } = context;
-  const { permitted, user } = params;
-
-  context.data.idPartner = user.id;
-  // context.data.enabled = 0;
-
-  // Sono admin
-  if (permitted) return context;
-
-  //Prendo tutti i miei studenti
-  const students = await app.service('student').find({
-    query: {
-      idPartner: user.id,
-      idUtente: data.idStudent,
-      $select: ['idUtente']
-    }
-  });
-
-  if (students.total <= 0) {
-    throw new Error('Non sei partner di questo studente');
-  }
-
-  return context;
-}; */
 
 module.exports = {
   before: {
@@ -49,6 +23,7 @@ module.exports = {
       }
     ],
     find: [
+      apiKey(),
       allowAnonymous(),
       authenticate('jwt', 'anonymous'),
       checkPermissions({
@@ -57,10 +32,7 @@ module.exports = {
         error: false
       }),
       async context => {
-
-        
         const { params } = context;
-        console.log(params);
         const { permitted } = params;
 
         // Sono admin oppure partner
@@ -68,7 +40,7 @@ module.exports = {
 
         // Sono un utente comune, devo passare numero e/o codice fiscale
 
-        const {query} = params;
+        const { query } = params;
 
         if (!('codiceFiscale' in query) && !('number' in query)) {
           throw new Error('Parametri non validi');

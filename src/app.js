@@ -62,12 +62,10 @@ app.use('*', function(req, res) {
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
-// app.use(express.errorHandler({ logger }));
 
 app.use(express.errorHandler({
   html: function(error, req, res) {
     // render your error view with the error object
-    console.log(error);
     res.status(error.code || 500);
     res.json(error);
   },

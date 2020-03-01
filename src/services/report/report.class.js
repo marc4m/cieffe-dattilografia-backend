@@ -31,8 +31,8 @@ exports.Report = class Report {
     const typingService = this.app.service('typing');
     const questionsService = this.app.service('questions');
     //loading data
+    const certificates = await certificatesService.find({...params, query: {idStudent:id}});
     const student = await studentService.get(id,{query:{$eager:'answers.[question]'}});
-    const certificates = await certificatesService.find({ query: {idStudent:id}});
     const typingQuery = await typingService.find({ query: {idStudent:id}});
     const typing = typingQuery.data[0];
     const certificate = certificates[0];
@@ -45,21 +45,21 @@ exports.Report = class Report {
     student.answers.map((answer,i) => {
       i=i+1;
       file = file.replace('$DOMANDA'+i, answer.question.text);
-      let risposta = "<input checked type=\"radio\" > "+answer.text +" "+ (answer.isCorrect == 1 ? "<strong style=\"color:green; margin-left:15px;\">Corretta</strong>" : "<strong style=\"color:red; margin-left:15px; \">Errata</strong>") + "<br>";
+      let risposta = '<input checked type="radio" > '+answer.text +' '+ (answer.isCorrect == 1 ? '<strong style="color:green; margin-left:15px;">Corretta</strong>' : '<strong style="color:red; margin-left:15px; ">Errata</strong>') + '<br>';
       file = file.replace('$RISPOSTE'+i, risposta);
       if(answer.isCorrect == 1){
         percentage++;
       }
-    })
+    });
 
     percentage = (((percentage)/30)*100).toFixed(2);
     file = file.replace('$PUNTEGGIO', percentage+'%');
 
     //module 4 report
     if(typing!=null){
-      file = file.replace('$HTMLMODULOSCRITTURAVELOCE', "<h4 style=\"text-align:left\">Modulo di scrittura veloce (Facoltativo) Superato.<br>Parole Corrette: " + typing.correctWords + "<br>Parole Errate: "+ typing.wrongWords +"<br>Tempo: " + typing.stopWatch + " </h4>");
+      file = file.replace('$HTMLMODULOSCRITTURAVELOCE', '<h4 style="text-align:left">Modulo di scrittura veloce (Facoltativo) Superato.<br>Parole Corrette: ' + typing.correctWords + '<br>Parole Errate: '+ typing.wrongWords +'<br>Tempo: ' + typing.stopWatch + ' </h4>');
     }else{
-      file = file.replace('$HTMLMODULOSCRITTURAVELOCE', "<h4 style=\"text-align:left\">Modulo di scrittura veloce (Facoltativo) non pervenuto.</h4>");
+      file = file.replace('$HTMLMODULOSCRITTURAVELOCE', '<h4 style="text-align:left">Modulo di scrittura veloce (Facoltativo) non pervenuto.</h4>');
     }
    
     //bottom of the report
@@ -73,4 +73,4 @@ exports.Report = class Report {
     
     return file;
   }
-}
+};

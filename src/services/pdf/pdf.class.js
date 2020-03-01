@@ -1,6 +1,7 @@
 const fs = require('fs');
 const moment = require('moment');
-const pdfhtml = require('html-pdf');
+
+const { NotAuthenticated } = require('@feathersjs/errors');
 
 /* eslint-disable no-unused-vars */
 exports.Pdf = class Pdf {
@@ -24,6 +25,8 @@ exports.Pdf = class Pdf {
   }
 
   async get(id, params) {
+    const { user, permitted } = params;
+
     const certificates = this.app.service('certificates');
     const partnerService = this.app.service('partner');
     const result = await certificates.get(id, { query: { $eager: 'student' } });
@@ -32,6 +35,13 @@ exports.Pdf = class Pdf {
     let partnerLogo = partner.blobLogo;
     let file = this.html;
     let now = moment().format('DD/MM/YYYY');
+
+    if(!permitted){
+      // Controllo se sono lo studente
+      if(user.id !== student.id){
+        throw new NotAuthenticated();
+      }
+    }
 
     file = file.replace('$NOME', student.nome.toUpperCase());
     file = file.replace('$COGNOME', student.cognome.toUpperCase());

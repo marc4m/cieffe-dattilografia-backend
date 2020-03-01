@@ -1,5 +1,5 @@
 {
-  "host": "test.nicmarrol.com",
+  "host": "fad.corsipersonaleata.it",
   "port": "80",
   "mysql": {
     "client": "mysql2",

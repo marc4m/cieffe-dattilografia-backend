@@ -3,7 +3,6 @@ const { Report } = require('./report.class');
 const hooks = require('./report.hooks');
 
 module.exports = function (app) {
-  
   const paginate = app.get('paginate');
 
   const options = {

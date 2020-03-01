@@ -20,6 +20,7 @@ module.exports = app => {
 
   authentication.register('jwt', new JWTStrategy());
   authentication.register('local', new LocalStrategy());
+
   authentication.register('anonymous', new AnonymousStrategy());
 
   app.use('/authentication', authentication);
