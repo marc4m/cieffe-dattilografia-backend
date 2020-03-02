@@ -9,7 +9,7 @@ module.exports = {
       apiKey(),
       authenticate('jwt'),
       checkPermissions({
-        roles: ['admin', 'partner'],
+        roles: ['admin'],
         field: 'role',
         error: false
       })

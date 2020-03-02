@@ -37,8 +37,13 @@ exports.Pdf = class Pdf {
     let now = moment().format('DD/MM/YYYY');
 
     if(!permitted){
-      // Controllo se sono lo studente
-      if(user.id !== student.id){
+      // Controllo se sono lo studente (deve essere il mio il certificato)
+      if(user.student && user.student.idUtente !== student.idUtente){
+        throw new NotAuthenticated();
+      }
+
+      // Nel caso sono partner, ma non di questo studente
+      if(user.partner && user.partner.idUtente !== partner.idUtente){
         throw new NotAuthenticated();
       }
     }
@@ -76,3 +81,4 @@ exports.Pdf = class Pdf {
     return file;
   }
 };
+
