@@ -3,6 +3,6 @@
   "port": "80",
   "mysql": {
     "client": "mysql2",
-    "connection": "mysql://opznwans_timeout:J2uoXmPxT@89.40.175.198:3306/opznwans_timeout_dattilografia"
+    "connection": "mysql://opznwans_cieffe_dattilografia:*HqZ2V1L&*s-@89.40.175.198:3306/opznwans_cieffe_dattilografia"
   }
 }
