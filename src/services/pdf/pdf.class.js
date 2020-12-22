@@ -54,6 +54,7 @@ exports.Pdf = class Pdf {
     file = file.replace("$NOME", student.nome.toUpperCase());
     file = file.replace("$COGNOME", student.cognome.toUpperCase());
     file = file.replace("$CITTA", student.comuneNascita.toUpperCase());
+    file = file.replace("$CF", student.codiceFiscale.toUpperCase());
     file = file.replace(
       "$DATA",
       moment(student.dataNascita).format("DD/MM/YYYY")

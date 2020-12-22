@@ -110,8 +110,6 @@ $RECYCLE.BIN/
 lib/
 data/
 
-public/
-
 tmp/
 
 yarn.lock
