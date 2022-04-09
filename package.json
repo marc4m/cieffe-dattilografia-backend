@@ -48,7 +48,7 @@
     "helmet": "^3.21.2",
     "html-pdf": "^2.2.0",
     "knex": "^0.19.5",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mysql2": "^1.7.0",
     "objection": "^1.6.11",
     "objection-soft-delete": "^1.0.7",
