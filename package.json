@@ -47,7 +47,7 @@
     "feathers-permissions": "^1.1.0",
     "helmet": "^3.21.2",
     "html-pdf": "^2.2.0",
-    "knex": "^0.19.5",
+    "knex": "^2.4.0",
     "moment": "^2.24.0",
     "mysql2": "^1.7.0",
     "objection": "^1.6.11",
